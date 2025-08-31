@@ -8,6 +8,10 @@ signal gem_off_screen
 @onready var gem: Area2D = $"."
 const SPEED: float = 200.0
 
+const BPM: float = 120.0
+var beat_interval: float = 60.0
+var last_beat: int = -1
+
 
 
 
@@ -17,11 +21,10 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(delta: float) -> void:	
 	gem.position.y += SPEED*delta
 	
 	if position.y > Game.get_vpr().end.y:
-		print("Gem falls off")
 		gem_off_screen.emit()
 		die()
 		
