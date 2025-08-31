@@ -24,6 +24,10 @@ var last_beat: int = -1
 
 var last_gem_x: float = 0
 var elapsed_time: float = 0.0
+var speed: float = 2
+
+var last_spawned_beat: int = -1
+
 
 func _ready() -> void:
 	update_vp()
@@ -35,12 +39,20 @@ func update_vp() -> void:
 	_vp_r = get_viewport_rect()
 	
 
-func spawn_gem()-> void:
+func spawn_gem(time_sec:float)-> void:
 	var new_gem: Gem = GEM.instantiate()
-	var x_pos: float = randf_range(_vp_r.end.x - MARGIN, _vp_r.position.x + MARGIN)
+	var center_x = _vp_r.size.x / 2
+	var full_amplitude = (_vp_r.size.x / 2) - MARGIN
+	var target_x = center_x + sin(time_sec * speed) * full_amplitude
+	var step = 200
+	var x_pos = last_gem_x + step * sign(target_x - last_gem_x)
+	x_pos = clamp(x_pos, MARGIN, _vp_r.size.x - MARGIN)
+	last_gem_x = x_pos
 	new_gem.position = Vector2(x_pos, MARGIN)
 	new_gem.gem_off_screen.connect(_on_gem_off_screen)
 	add_child(new_gem)
+
+
 	
 func stop_all() -> void:
 	sound.stop()
@@ -75,14 +87,17 @@ func animate_gems_on_beat() -> void:
 			tw.tween_property(child, "scale", Vector2(1, 1), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 			
 func _process(delta: float) -> void:
-	if sound.playing:
-		var elapsed = sound.get_playback_position()
-		var beats_passed = floor(elapsed / beat_interval)
-
-		if beats_passed > last_beat:
-			spawn_gem()
+	if sound and sound.playing:
+		elapsed_time += delta
+		var beat_index: int = int(floor(elapsed_time / beat_interval))
+		
+		if beat_index > last_beat:
 			animate_gems_on_beat()
-			last_beat = beats_passed		
+			last_beat = beat_index
+			
+		if beat_index > last_spawned_beat and (beat_index % 1) == 0:
+			spawn_gem(elapsed_time)
+			last_spawned_beat = beat_index
 	
 		
 		
