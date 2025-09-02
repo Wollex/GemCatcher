@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj5m0welfakyn"]
+
+[ext_resource type="Script" uid="uid://dptlge0x2tp0n" path="res://Scenes/UI/GameUI.gd" id="1_13cgw"]
+
+[node name="GameUi" type="CanvasLayer"]
+script = ExtResource("1_13cgw")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StaminaBG" type="Panel" parent="HUD"]
+modulate = Color(0.516713, 0.362628, 0.360268, 1)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 20.0
+pivot_offset = Vector2(20, 20)
+
+[node name="StaminaFill" type="ColorRect" parent="HUD/StaminaBG"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 20.0
+color = Color(1, 1, 0, 1)

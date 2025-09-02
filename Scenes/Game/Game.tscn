@@ -1,13 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://dlj7cqu6r7mdq"]
 
-[ext_resource type="Script" uid="uid://dqdk6lyonsld4" path="res://Scenes/Game/Game.gd" id="1_ln2h6"]
 [ext_resource type="Texture2D" uid="uid://cifbkqboyb0jw" path="res://assets/GameBg.png" id="1_rdw05"]
+[ext_resource type="Script" uid="uid://dqdk6lyonsld4" path="res://Scenes/Game/Game.gd" id="1_y3kpf"]
+[ext_resource type="PackedScene" uid="uid://cj5m0welfakyn" path="res://Scenes/UI/GameUI.tscn" id="2_3k6gv"]
 [ext_resource type="PackedScene" uid="uid://cosi8kvbygul2" path="res://Scenes/Paddle/Paddle.tscn" id="2_gwu2e"]
-[ext_resource type="AudioStream" uid="uid://p63gryidv1nh" path="res://assets/LevelMusic.mp3" id="4_y3kpf"]
-[ext_resource type="AudioStream" uid="uid://cs13hhvaedpbp" path="res://assets/spell1_0.wav" id="5_y3kpf"]
+[ext_resource type="AudioStream" uid="uid://bq5dburutmw1v" path="res://assets/Level_Music1.wav" id="4_y3kpf"]
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_ln2h6")
+script = ExtResource("1_y3kpf")
+
+[node name="GameUI" parent="." instance=ExtResource("2_3k6gv")]
+unique_name_in_owner = true
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(579, 299)
@@ -21,10 +24,8 @@ position = Vector2(587, 607)
 stream = ExtResource("4_y3kpf")
 volume_db = -15.0
 autoplay = true
-parameters/looping = true
 
 [node name="ScoreSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_y3kpf")
 volume_db = -10.0
 
 [node name="ScoreLabel" type="Label" parent="."]

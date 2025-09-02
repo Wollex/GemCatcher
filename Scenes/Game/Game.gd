@@ -1,18 +1,19 @@
 extends Node2D
-
 class_name Game
 
-
-var _score: int = 0
 const EXPLODE = preload("res://assets/explode.wav")
 const GEM = preload("res://Scenes/Gem/Gem.tscn")
-const MARGIN: float = 70
 
-
-@onready var paddle: Area2D = $Paddle
+@onready var game_ui: GameUI = %GameUI
+@onready var paddle: Paddle = $Paddle
 @onready var score_sound: AudioStreamPlayer2D = $ScoreSound
 @onready var sound: AudioStreamPlayer = $Sound
 @onready var score_label: Label = $ScoreLabel
+
+
+var _score: int = 0
+
+const MARGIN: float = 70
 
 static var _vp_r: Rect2
 static func get_vpr() -> Rect2:
@@ -25,14 +26,14 @@ var last_beat: int = -1
 var last_gem_x: float = 0
 var elapsed_time: float = 0.0
 var speed: float = 2
-
 var last_spawned_beat: int = -1
 
 
 func _ready() -> void:
 	update_vp()
 	get_viewport().size_changed.connect(update_vp)
-
+	await get_tree().process_frame
+	paddle.stamina_changed.connect(_on_paddle_stamina_changed)
 	
 	
 func update_vp() -> void:
@@ -98,6 +99,12 @@ func _process(delta: float) -> void:
 		if beat_index > last_spawned_beat and (beat_index % 1) == 0:
 			spawn_gem(elapsed_time)
 			last_spawned_beat = beat_index
-	
+			
+			
+			
+func _on_paddle_stamina_changed(current: float, max_value: float) -> void:
+	var ratio := 0.0 if max_value == 0.0 else current / max_value
+	if game_ui:
+		game_ui.set_stamina_ratio(ratio)
 		
 		
