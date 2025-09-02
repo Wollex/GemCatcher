@@ -13,6 +13,10 @@ script = ExtResource("1_wuola")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_ho25w")
 
+[node name="Holo" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.4)
+texture = ExtResource("1_ho25w")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_ho25w")
