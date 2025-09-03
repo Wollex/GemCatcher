@@ -12,7 +12,7 @@ const BPM: float = 120.0
 var beat_interval: float = 60.0
 var last_beat: int = -1
 
-@export var stamina_gain: float = 5.0
+@export var stamina_gain: float = 1.0
 
 
 # Called when the node enters the scene tree for the first time.
